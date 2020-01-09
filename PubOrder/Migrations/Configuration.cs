@@ -28,11 +28,11 @@ namespace PubOrder.Migrations
             var roleManager = new RoleManager<IdentityRole>(roleStore);
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
-            var user = new ApplicationUser { UserName = "admin@gmail.com" };
+            var user = new ApplicationUser { UserName = "admin@admin.com" };
             var guestUser = new ApplicationUser { UserName = "guest@guest.com" };
 
-            userManager.Create(user, "abc123"); //strong password!#@$!
-            userManager.Create(guestUser, "guest1"); //strong password!#@$!
+            userManager.Create(user, "admin"); //strong password!#@$!
+            userManager.Create(guestUser, "guest"); //strong password!#@$!
 
             roleManager.Create(new IdentityRole { Name = "Admin" });
             userManager.AddToRole(user.Id, "Admin"); 
