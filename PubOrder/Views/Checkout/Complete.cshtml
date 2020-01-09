@@ -1,0 +1,23 @@
+﻿@model int
+@{
+    ViewBag.Title = "Checkout Complete";
+}
+<!-- breadcam_area_start -->
+<div class="breadcam_area breadcam_bg_1 zigzag_bg_2">
+    <div class="breadcam_inner">
+        <div class="breadcam_text">
+            <h3>@ViewBag.Title</h3>
+            <p>@ViewBag.Message<br>Thanks for your Order ! Your order number is: @Model</p>
+        </div>
+    </div>
+</div>
+<!-- breadcam_area_end -->
+<!-- order_area_start -->
+<div class="order_area">
+    <div class="container">
+        <p>
+            How about shopping for some more stuff in our
+            @Html.ActionLink("store", "Index", "Home")
+        </p>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+﻿@model PagedList.IPagedList<PubOrder.Models.Item>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Food";
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".AddLink").click(function () {
+            // Get the id from the link
+            var recordToAdd = $(this).attr("data-id");
+            if (recordToAdd != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/AddToCart", { "id": recordToAdd },
+                    function (data) {
+                        $('#cart-status').text(data.CartCount);
+                    });
+            }
+        });
+    });
+</script>
+
+<!-- Button trigger modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+
+    <div aria-hidden="true" class="alert alert-dismissable alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>An item was added to your cart.</strong> To check out now simply <a href="#" class="alert-link">click here</a>.
+    </div>
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Confirm check out.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <p>Would you like to check out or keep shopping??</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
+                <button type="submit" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ShoppingCart")'">Check Out</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- breadcam_area_start -->
+<div class="breadcam_area breadcam_bg_1 zigzag_bg_2">
+    <div class="breadcam_inner">
+        <div class="breadcam_text">
+            <h3>Our Menu</h3>
+            
+        </div>
+    </div>
+</div>
+<!-- breadcam_area_end -->
+<!-- order_area_start -->
+<div class="order_area">
+    <div class="container">
+        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+        }
+        <div class="bs-docs-section">
+            <div class="row">
+                @using (Html.BeginForm("Index", "Items", FormMethod.Get))
+                {
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Find: </span>
+                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                            <span class="input-group-btn">
+                                <input type="submit" class="btn btn-info btn-sm" value="Search" />
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    Sort By
+                </th>
+                <th>
+                    @Html.ActionLink("Item Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+                <th>
+                    @Html.ActionLink("Item Price", "Index", new { sortOrder = ViewBag.PriceSortParm, currentFilter = ViewBag.CurrentFilter })
+                </th>
+            </tr>
+        </table>
+
+            <div class="row">
+                
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-xl-4 col-md-6">
+                            <div class="single_order">
+                                <div class="order_thumb">
+                                    <a href="@Url.Action("Details", new {id = item.ID })">
+                                    <img src="@Url.Action("RenderImage", new { id = item.ID})" /></a>
+                                    <div class="order_prise">
+                                        <span>@Html.DisplayFor(modelItem => item.Price)</span>
+                                    </div>
+                                </div>
+                                <div class="order_info">
+                                    <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                                    <p>
+                                        Catagorie  |   @Html.DisplayFor(modelItem => item.Catagorie.Name) <br>
+                                        Weastern Pickle   |   Mixed Vegetable <br>
+                                        Soft Drinks
+                                    </p>
+                                    <a href="#" class="AddLink boxed_btn"
+                                       data-id="@item.ID" data-toggle="modal" data-target="#myModal">
+                                        Order Now!
+                                    </a>
+
+                                    
+                                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                
+            </div>
+
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>
+<!-- order_area_end -->
