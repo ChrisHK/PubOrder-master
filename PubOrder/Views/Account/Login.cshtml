@@ -23,7 +23,7 @@
                     @Html.Partial("GuestLogin", new PubOrder.Models.GuestViewModel { GuestAcct = "Guest@Guest.com", GuestPassword = "guest1" })
                 </section>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-9">
                 <section id="loginForm">
                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
