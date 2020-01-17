@@ -31,8 +31,8 @@ namespace PubOrder.Migrations
             var user = new ApplicationUser { UserName = "admin@admin.com" };
             var guestUser = new ApplicationUser { UserName = "guest@guest.com" };
 
-            userManager.Create(user, "admin"); //strong password!#@$!
-            userManager.Create(guestUser, "guest"); //strong password!#@$!
+            userManager.Create(user, "admin1"); //strong password!#@$!
+            userManager.Create(guestUser, "guest1"); //strong password!#@$!
 
             roleManager.Create(new IdentityRole { Name = "Admin" });
             userManager.AddToRole(user.Id, "Admin"); 

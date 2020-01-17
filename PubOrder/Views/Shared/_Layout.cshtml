@@ -32,7 +32,7 @@
                                         @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                                         {
                                             <li>
-                                                <a href="#">Admin Area<i class="ti-angle-down"></i></a>
+                                                <a href="#">Console Manage<i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     <li>@Html.ActionLink("Orders", "Index", "Orders")</li>
                                                     <li>@Html.ActionLink("Catagorie", "Index", "Catagories")</li>
@@ -40,10 +40,10 @@
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#">Roles Admin<i class="ti-angle-down"></i></a>
+                                                <a href="#">Roles Manage<i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                                                    <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
+                                                    <li>@Html.ActionLink("ManageAdmin", "Index", "RolesAdmin")</li>
+                                                    <li>@Html.ActionLink("UsersManage", "Index", "UsersAdmin")</li>
                                                 </ul>
                                             </li>
                                         }
